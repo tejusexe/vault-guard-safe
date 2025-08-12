@@ -2,7 +2,7 @@ import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "app.lovable.b6dd30128d9249d688b709c1dcbd072c",
-  appName: "A Lovable project",
+  appName: "saveit",
   webDir: "dist",
   bundledWebRuntime: false,
   server: {

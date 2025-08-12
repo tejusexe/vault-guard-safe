@@ -1,14 +1,16 @@
 import React from "react";
-import { Outlet, useLocation, Link } from "react-router-dom";
+import { Outlet, useLocation, Link, useNavigate } from "react-router-dom";
 import { useVault } from "@/context/VaultContext";
 import LockScreen from "@/components/LockScreen";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shield, LogOut } from "lucide-react";
+import { Shield, LogOut, ArrowLeft } from "lucide-react";
 
 const ProtectedLayout: React.FC = () => {
   const { isUnlocked, lock } = useVault();
   const location = useLocation();
+  const navigate = useNavigate();
+  const showBack = location.pathname !== "/";
 
   if (!isUnlocked) return <LockScreen />;
 
@@ -16,10 +18,17 @@ const ProtectedLayout: React.FC = () => {
     <div className="min-h-screen bg-background">
       <header className="sticky top-0 z-10 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto flex h-14 items-center justify-between">
-          <Link to="/" className="inline-flex items-center gap-2">
-            <Shield className="h-5 w-5 text-primary" />
-            <span className="font-semibold">Secure Vault</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            {showBack && (
+              <Button variant="ghost" size="sm" onClick={() => navigate(-1)} aria-label="Go back">
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+            )}
+            <Link to="/" className="inline-flex items-center gap-2">
+              <Shield className="h-5 w-5 text-primary" />
+              <span className="font-semibold">saveit</span>
+            </Link>
+          </div>
           <Button variant="outline" size="sm" onClick={lock}>
             <LogOut className="h-4 w-4" />
             <span className="ml-2">Lock</span>
